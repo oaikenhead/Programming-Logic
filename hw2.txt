@@ -1,0 +1,70 @@
+;;;	Olliver Aikenhead
+;;;	Homework 2
+;;;	CS 326
+;;;	Scheme programming language
+
+;1. 
+(define (subst x y L)
+  (cond ((null? L) L)  
+  ((equal? (car L) x)
+  (cons y (subst x y (cdr L))))
+  (else (cons (car L) (subst x y (cdr L))))))
+
+;2.
+(define (all-different? L)
+  (cond ((equal? (length L) 2)
+  (not (equal? (car L) (cdr L))))
+  (else (and (node-check (car L) (cdr L)) (all-different? (cdr L))))))
+  (define (node-check a L)
+  (cond ((equal? (length L) 1)
+  (not (equal? a (cdr L))))
+  (else (and (not (equal? (car L) a)) (node-check a (cdr L))))))
+
+;3.
+(define (left T) 
+  (car (cdr T)))
+  (define (right T) 
+  (car (cdr (cdr T))))
+  (define (val T) 
+  (car T))
+
+;3a.
+(define (n-nodes T)
+  (cond ((null? T) 0)
+    (else (+ 1 (n-nodes (left T)) (n-nodes (right T)))))
+
+;3b.
+(define (n-leaves T)
+  (display T) (newline)
+  (cond ((null? T) 0)
+  ((and (null? (left T)) (null? (right T))) 1)
+  (else (+ (n-leaves (left T)) (n-leaves (right T))))))
+
+;3c.
+(define (height T)
+(cond ((null? T) 0)
+(else (+ 1 (max (height (left T)) (height (right T)))))))
+
+;3d.
+(define (postorder T)
+  (cond ((null? T) '())
+(else (append (postorder (left T)) (postorder (right T))
+  (list (val T))))))
+
+;4.
+(define (flatten L) 
+  (display L) (newline)
+  (cond ((null? L) '())
+  ((not (pair? L)) (list L))
+  (else (append (flatten (car L)) 
+  (flatten (cdr L))))))
+  (flatten '(1 (2 (3 4) )5 ))
+
+;5.
+(define (member-bst? V T)
+  (cond ((null? T) #f)
+  ((< V (val T))
+  (member-bst? V (left T)))
+  ((> V (val T))
+  (member-bst? V (right T)))
+  (else #t)))
